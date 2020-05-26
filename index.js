@@ -12,15 +12,18 @@ const authenticate = require('./authenticate');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', './views'); // default
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(helmet());
 
 // Configuration
-console.log('Application Name: ' + config.get('name'));
-console.log('Mail Server: ' + config.get('mail.host'));
-console.log('Mail Password: ' + config.get('mail.password'));
+// console.log('Application Name: ' + config.get('name'));
+// console.log('Mail Server: ' + config.get('mail.host'));
+// console.log('Mail Password: ' + config.get('mail.password'));
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));
@@ -40,7 +43,10 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-  res.send('Hello World !!!!');
+  res.render('index', {
+    title: 'My Express App',
+    message: 'Hello',
+  });
 });
 
 app.get('/api/courses', (req, res) => {
