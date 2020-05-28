@@ -46,16 +46,24 @@
 // const port = process.env.PORT || 3000;
 // app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-const getUser = (id) => {
+const getRepositories = (username, callback) => {
+  setTimeout(() => {
+    console.log('Calling GitHub API...');
+    callback({ username, repos: ['repos1', 'repos2', 'repos3'] });
+  }, 2000);
+};
+
+const getUser = (id, callback) => {
   setTimeout(() => {
     console.log('Reading a user from a database...');
-    return { id, gitHubUsername: 'mosh' };
+    callback({ id, gitHubUsername: 'mosh' });
   }, 2000);
-
-  return 1;
 };
 
 console.log('Before');
-const user = getUser(1);
-console.log(user);
+getUser(1, (user) => {
+  getRepositories(user.gitHubUsername, (repos) => {
+    console.log('Repos', repos);
+  });
+});
 console.log('After');
