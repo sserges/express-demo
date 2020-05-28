@@ -46,24 +46,37 @@
 // const port = process.env.PORT || 3000;
 // app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-const getRepositories = (username, callback) => {
-  setTimeout(() => {
-    console.log('Calling GitHub API...');
-    callback({ username, repos: ['repos1', 'repos2', 'repos3'] });
-  }, 2000);
+const getCommits = (repo) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Calling GitHub API...');
+      resolve(['commit']);
+    }, 2000);
+  });
 };
 
-const getUser = (id, callback) => {
-  setTimeout(() => {
-    console.log('Reading a user from a database...');
-    callback({ id, gitHubUsername: 'mosh' });
-  }, 2000);
+const getRepositories = (username) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Calling GitHub API...');
+      resolve({ username, repos: ['repos1', 'repos2', 'repos3'] });
+    }, 2000);
+  });
+};
+
+const getUser = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Reading a user from a database...');
+      resolve({ id, gitHubUsername: 'mosh' });
+    }, 2000);
+  });
 };
 
 console.log('Before');
-getUser(1, (user) => {
-  getRepositories(user.gitHubUsername, (repos) => {
-    console.log('Repos', repos);
+getUser(1).then((user) => {
+  getRepositories(user.gitHubUsername).then((repos) => {
+    console.log(repos);
   });
 });
 console.log('After');
