@@ -28,14 +28,18 @@ const createCourse = async () => {
 };
 
 const getCourses = async () => {
-  // or
-  // and
-
   const courses = await Course
     // .find({ author: 'Mosh', isPublished: true })
-    .find()
-    .or([{ author: 'Mosh' }, { isPublished: true }])
-    .and([{ author: 'Mosh' }, { isPublished: true }])
+
+    // Starts with Mosh
+    .find({ author: /^Mosh/ })
+
+    // Ends with Hamedani
+    .find({ author: /Hamedani$/i })
+
+    // Contains Mosh
+    .find({ author: /.*Mosh.*/i })
+
     .limit(10)
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 });
