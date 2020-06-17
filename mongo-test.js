@@ -50,7 +50,7 @@ const Course = mongoose.model('Course', courseSchema);
 const createCourse = async () => {
   const course = new Course({
     name: 'Angular Course',
-    category: 'web',
+    category: '-',
     author: 'Mosh',
     tags: null,
     isPublished: true,
@@ -61,7 +61,9 @@ const createCourse = async () => {
     const result = await course.save();
     console.log(result);
   } catch (error) {
-    console.log(error.message);
+    for (field in error.errors) {
+      console.log(error.errors[field].message);
+    }
   }
 };
 
